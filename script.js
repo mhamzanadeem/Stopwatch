@@ -2,6 +2,7 @@ let timerDisplay = document.querySelector('.timerDisplay');
 let stopBtn = document.getElementById('stopBtn');
 let startBtn = document.getElementById('startBtn');
 let resetBtn = document.getElementById('resetBtn');
+let themeToggle = document.getElementById('themeToggle');
 
 let msec = 00;
 let secs = 00;
@@ -44,4 +45,32 @@ mins++;
 
     timerDisplay.innerHTML = `${minsString} : ${secsString} : ${msecString}`;
 
+}
+
+// Theme toggle: persists selection in localStorage
+function applyTheme(theme){
+    if(theme === 'light'){
+        document.body.setAttribute('data-theme', 'light');
+        if(themeToggle) themeToggle.textContent = 'Light Mode';
+    } else {
+        document.body.removeAttribute('data-theme');
+        if(themeToggle) themeToggle.textContent = 'Dark Mode';
+    }
+}
+
+// Initialize theme from localStorage
+const savedTheme = localStorage.getItem('theme');
+if(savedTheme === 'light'){
+    applyTheme('light');
+} else {
+    applyTheme('dark');
+}
+
+if(themeToggle){
+    themeToggle.addEventListener('click', function(){
+        const isLight = document.body.getAttribute('data-theme') === 'light';
+        const newTheme = isLight ? 'dark' : 'light';
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
 }
